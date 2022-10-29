@@ -1,0 +1,24 @@
+dotnet dev-certs https --trust
+dotnet tool install --global dotnet-ef --version 6.0.10
+dotnet run
+dotnet ef migrations add InitialCreate -o Data/Migrations
+dotnet new gitignore
+
+angular
+in cmd:
+npm install -g @angular/cli@12
+ng new client --strict false
+css
+ng serve  [start angular]
+extensions:
+{
+angular language service 
+angular snippets
+bracket pair colorizer 2}
+
+Adding bootstrap
+ng add ngx-bootstrap
+ npm install font-awesome
+
+ssl in students asset
+instal and copy to folder ssl 2 files
