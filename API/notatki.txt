@@ -3,6 +3,8 @@ dotnet tool install --global dotnet-ef --version 6.0.10
 dotnet run
 dotnet ef migrations add InitialCreate -o Data/Migrations
 dotnet new gitignore
+dotnet ef database drop/update
+dotnet ef migrations add ExtendedUserEntity
 
 angular
 in cmd:
@@ -14,11 +16,42 @@ extensions:
 {
 angular language service 
 angular snippets
-bracket pair colorizer 2}
+bracket pair colorizer 2
+}
+
+npm install ngx-toastr
+
+dodanie komponentu:
+a-ngModel
+dodanie serwisu:
+ng g s account --skip-tests
+ng g guard auth --skip-tests
+ng g interceptor --skip-tests
+
+dodanie modulu
+ng g m shared --flat
 
 Adding bootstrap
 ng add ngx-bootstrap
- npm install font-awesome
+npm install font-awesome
+ng g component nav
+ng  g c nav --skip-test
 
 ssl in students asset
 instal and copy to folder ssl 2 files
+
+nuget:
+System.IdentityModel.Tokens.Jwt 
+Microsoft.AspNetCore.Authentication.JwtBearer 
+AutoMapper.Extensions.Microsoft.DependencyInjection
+
+
+npm i bootswatch
+".node_modules/bootswatch/dist/united/bootstrap/css",
+"./node_modules/font-awesome/css/font-awesome.css",
+"./node_modules/ngx-toastr/toastr.css",
+
+
+
+linki:
+https://json-generator.com/
