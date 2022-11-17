@@ -27,9 +27,17 @@ dodanie serwisu:
 ng g s account --skip-tests
 ng g guard auth --skip-tests
 ng g interceptor --skip-tests
+komponent
+ng g c member-card --skip-tests
 
 dodanie modulu
 ng g m shared --flat
+
+dodanie serwisu
+ng g s members --skip-tests
+
+dodanie interceptor Tokens
+ng g interceptor jwt --skip-tests
 
 Adding bootstrap
 ng add ngx-bootstrap
@@ -55,3 +63,5 @@ npm i bootswatch
 
 linki:
 https://json-generator.com/
+http://json2ts.com/
+https://valor-software.com/ngx-bootstrap/#/components/tabs?tab=overview
