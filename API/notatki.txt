@@ -38,12 +38,16 @@ ng g s members --skip-tests
 
 dodanie interceptor Tokens
 ng g interceptor jwt --skip-tests
+potem dodaj do app module
 
 Adding bootstrap
 ng add ngx-bootstrap
 npm install font-awesome
 ng g component nav
 ng  g c nav --skip-test
+
+generate service:
+ng g s busy --skip-tests
 
 ssl in students asset
 instal and copy to folder ssl 2 files
@@ -52,6 +56,9 @@ nuget:
 System.IdentityModel.Tokens.Jwt 
 Microsoft.AspNetCore.Authentication.JwtBearer 
 AutoMapper.Extensions.Microsoft.DependencyInjection
+
+linki do npm:
+https://www.npmjs.com/package/ngx-spinner#installation
 
 
 npm i bootswatch
