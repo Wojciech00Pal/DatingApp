@@ -47,7 +47,7 @@
   </div>
   <div class="col-8">
     <tabset class="memeber-tabset">
-      <tab heading="About {{ member.knownAs }}">
+      <tab heading="About {{ member.knownAs | titlecase }}">
         <form #editForm="ngForm" id="editForm" (ngSubmit)="updateMember()">
           <h4>Description</h4>
           <textarea

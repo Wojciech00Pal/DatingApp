@@ -460,3 +460,5 @@ API/notatki.txt
 API/notatki.txt
 API/datingapp.db-wal
 API/datingapp.db-shm
+API/datingapp.db
+.gitignore
