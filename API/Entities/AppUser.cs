@@ -34,7 +34,9 @@ namespace API.Entities
         public List<UserLike> LikedByUsers { get; set; } //who like me
 
         public List<UserLike> LikedUsers { get; set; } //who I like 
-       
+
+        public List<Message> MessagesSent { get; set; }
+        public List<Message> MessagesReceived { get; set; }
         /*
                 public int GetAge()
                 {
