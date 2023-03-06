@@ -1,0 +1,5 @@
+c# ctrl+p >debug api.exe
+.net.core attach to api.exe
+
+Angular
+launch chrome

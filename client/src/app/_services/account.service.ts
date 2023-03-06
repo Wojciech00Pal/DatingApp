@@ -8,6 +8,7 @@ import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
+
 export class AccountService {
   baseUrl=environment.apiUrl;
   private currentUserSource=new ReplaySubject<User>(1);//buffer size is 1
@@ -40,6 +41,10 @@ export class AccountService {
 
   setCurrentUser(user:User)
   {
+    user.roles= [];
+    const roles = this.getDecodedToken(user.token).role;
+    Array.isArray(roles) ? user.roles = roles : user.roles.push(roles); // jesli roles jest tablica to przypisz role
+    //do niej inaczej dodaj pojedynczy element roli na koniec tablicy
     localStorage.setItem('user',JSON.stringify(user));
     this.currentUserSource.next(user);
   }
@@ -48,5 +53,10 @@ export class AccountService {
   {
     localStorage.removeItem('user');
     this.currentUserSource.next(null);
+  }
+
+  getDecodedToken(token:string)
+  {
+    return JSON.parse(atob(token.split('.')[1]))
   }
 }
