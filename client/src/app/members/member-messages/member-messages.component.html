@@ -4,15 +4,18 @@
       No messages yet...say hi by using message box below
     </div>
     <ul
+      #scrollMe
+      style="overflow: scroll; height: 500px"
+      [scrollTop]="scrollMe.scrollHeight"
       *ngIf="(messageService.messageThread$ | async)?.length > 0"
       class="chat"
     >
-      <li *ngFor="let mes of (messageService.messageThread$ | async)">
+      <li *ngFor="let mes of messageService.messageThread$ | async">
         <div>
           <span class="chat-img float-end">
             <img
               class="rounded-circle"
-              src="{{ mes.senderPhotoUrl || './assets/user/png' }}"
+              src="{{ mes.senderPhotoUrl || './assets/user.png' }}"
               alt="image of user"
             />
           </span>
@@ -20,7 +23,7 @@
             <div class="header">
               <small class="text-muted">
                 <span class="fa fa-clock-o">
-                  {{ mes.messageSent  | timeago }}
+                  {{ mes.messageSent | timeago }}
                 </span>
                 <span
                   class="text-danger"

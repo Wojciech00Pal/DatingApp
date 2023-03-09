@@ -45,8 +45,8 @@ namespace API.Data
         public async Task<Group_> GetGroupForConnection(string ConnectionId)
         {
             return await _context.Groups
-                .Include(x=>x.Connections)
-                .Where(x => x.Connections.Any(c=> c.ConnectionId == ConnectionId))
+                .Include(x => x.Connections)
+                .Where(x => x.Connections.Any(c => c.ConnectionId == ConnectionId))
                 .FirstOrDefaultAsync();
         }
 
@@ -83,9 +83,7 @@ namespace API.Data
 
         public async Task<IEnumerable<MessageDto>> GetMessageThread(string currentUserName, string recipientUserName) //current ->zalogowany , recipient ->wysylajacy
         {
-            var messages = await _context.Messages
-                .Include(u => u.sender).ThenInclude(p => p.Photos)
-                .Include(u => u.recipient).ThenInclude(p => p.Photos)
+            var query =  _context.Messages
                 .Where(
                     m => m.recipientUserName == currentUserName && m.recipientDelted == false &&
                     m.senderUserName == recipientUserName || //or
@@ -93,9 +91,10 @@ namespace API.Data
                     m.senderUserName == currentUserName
                 )
                 .OrderBy(m => m.messageSent)//latest messages first
-                .ToListAsync();
+                .AsQueryable();
+                
 
-            var unreadMessages = messages.Where(m => m.dateRead == null &&
+            var unreadMessages = query.Where(m => m.dateRead == null &&
             m.recipientUserName == currentUserName).ToList();
 
             if (unreadMessages.Any())
@@ -104,22 +103,16 @@ namespace API.Data
                 {
                     mes.dateRead = DateTime.UtcNow;
                 }
-                await _context.SaveChangesAsync();
+
             }
 
-            return _mapper.Map<IEnumerable<MessageDto>>(messages);
+            return await query.ProjectTo<MessageDto>(_mapper.ConfigurationProvider).ToListAsync();
 
         }
 
         public void RemoveConnection(Connection connection)
         {
             _context.Connections.Remove(connection);
-        }
-
-        public async Task<bool> SaveAllAsync()
-        {
-            var ret = await _context.SaveChangesAsync();
-            return ret >= 1;
         }
     }
 }
