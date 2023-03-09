@@ -18,12 +18,17 @@ namespace API
             var host = CreateHostBuilder(args).Build();
             using var scope = host.Services.CreateScope();
             var services = scope.ServiceProvider;
+
+            //  app.MapHub<PresenceHub>("hubs/presence");
             try
             {
                 var context = services.GetRequiredService<DataContext>();
                 var userManger = services.GetRequiredService<UserManager<AppUser>>();
                 var roleManger = services.GetRequiredService<RoleManager<AppRole>>();
                 await context.Database.MigrateAsync();
+                //context.Connections.RemoveRange(context.Connections);await context.Database.ExecuteSqlRawAsync("Truncate TABLE [Connections]"); not is working in sqlit                   
+               // await context.Database.ExecuteSqlRawAsync("Truncate TABLE [Connections]");
+                await context.Database.ExecuteSqlRawAsync("DELETE FROM [Connections]");
                 await Seed.SeedUsers(userManger, roleManger);
             }
             catch (Exception ex)
@@ -42,5 +47,6 @@ namespace API
             {
                 webBuilder.UseStartup<Startup>();
             });
+
     }
 }

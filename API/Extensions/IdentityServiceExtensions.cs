@@ -36,7 +36,23 @@ namespace API.Extensions
                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["TokenKey"])),
                        ValidateIssuer = false,//api
                        ValidateAudience = false//angular app
+                       
+                   };
 
+                   options.Events = new JwtBearerEvents
+                   {
+                    OnMessageReceived = context =>
+                    {
+                        var accessToken = context.Request.Query["access_token"]; //signar in client when sends token
+
+                        var path = context.HttpContext.Request.Path;
+                        if(!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/hubs"))
+                        {
+                            context.Token = accessToken;
+                        }
+
+                        return Task.CompletedTask;
+                    }
                    };
                });
 
