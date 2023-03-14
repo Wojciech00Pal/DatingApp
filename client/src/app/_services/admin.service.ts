@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { HttpRequest, HttpResponse } from '@microsoft/signalr';
 import { environment } from 'src/environments/environment';
+import { Photo } from '../_modules/photo';
 import { User } from '../_modules/user';
 
 @Injectable({
@@ -21,5 +23,20 @@ export class AdminService {
   {
     return this.http.post<string[]>(this.baseUrl+'admin/edit-roles/' + username + 
     '?roles=' + roles, {})
+  }
+
+  getPhotosForApproval()
+  {
+    return this.http.get<Photo[]>(this.baseUrl + 'admin/photos-to-moderate')
+  }
+
+  approvePhoto(photoId: number)
+  {
+    return this.http.post(this.baseUrl + 'admin/approve-photo/' + photoId, {});
+  }
+
+  rejectPhoto(photoId: number)
+  {
+    return this.http.delete(this.baseUrl + 'admin/reject-photo/' + photoId, {});
   }
 }

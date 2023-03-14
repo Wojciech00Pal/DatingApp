@@ -27,11 +27,26 @@ namespace API.Data
             _context = context;
         }
 
-        public async Task<MemberDto> GetMemberAsync(string username)
+        public async Task<AppUser> GetAppUserByPhotoId(int photoId)
         {
-            return await _context.Users
+            return await _context.Photos
+             .Where(x => x.Id == photoId)
+             .Select(x => x.appUser)
+             .FirstOrDefaultAsync();
+            //inaczej w solution
+        }
+
+        public async Task<MemberDto> GetMemberAsync(string username, bool isCurrentUser)
+        {
+            var query = _context.Users
                 .Where(x => x.UserName == username)
+                .Include(p=>p.Photos)
                 .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
+                .AsQueryable();
+
+            if (isCurrentUser) query = query.IgnoreQueryFilters();
+
+            return await query
                 .SingleOrDefaultAsync();
         }
 
@@ -77,7 +92,7 @@ namespace API.Data
 
         public async Task<string> GetUserGender(string username)
         {
-            return await _context.Users.Where(x=> x.UserName == username).Select(x => x.Gender).FirstOrDefaultAsync();
+            return await _context.Users.Where(x => x.UserName == username).Select(x => x.Gender).FirstOrDefaultAsync();
         }
 
         public async Task<IEnumerable<AppUser>> GetUsersAsync()

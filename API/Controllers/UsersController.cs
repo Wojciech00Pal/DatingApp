@@ -37,7 +37,7 @@ namespace API.Controllers
         {
             var gender = await _uow.UserRepository.GetUserGender(User.GetUsername());
             userParams.CurrentUsername = User.GetUsername();
-           
+
             if (string.IsNullOrEmpty(userParams.Gender))
             {
                 userParams.Gender = gender == "male" ? "female" : "male";
@@ -51,11 +51,12 @@ namespace API.Controllers
             return Ok(users);
         }
 
-       
+
         [HttpGet("{username}", Name = "GetUser")]
         public async Task<ActionResult<MemberDto>> GetUser(string username)
         {
-            return await _uow.UserRepository.GetMemberAsync(username);
+            var currentUserName = User.GetUsername();
+            return await _uow.UserRepository.GetMemberAsync(username, currentUserName == username);
 
         }
 
@@ -88,11 +89,6 @@ namespace API.Controllers
                 PublicId = result.PublicId
             };
 
-            if (user.Photos.Count == 0)
-            {
-                photo.IsMain = true;
-            }
-
             user.Photos.Add(photo);
 
             if (await _uow.Complete())
@@ -111,24 +107,29 @@ namespace API.Controllers
 
             var photo = user.Photos.FirstOrDefault(x => x.Id == photoId);
 
-            if (photo.IsMain) return BadRequest("This is already main photo");
+            if (photo != null)
+            {
 
-            var currentMain = user.Photos.FirstOrDefault(x => x.IsMain);
+                if (photo.IsMain) return BadRequest("This is already main photo");
 
-            if (currentMain != null) currentMain.IsMain = false;
+                var currentMain = user.Photos.FirstOrDefault(x => x.IsMain);
 
-            photo.IsMain = true;
+                if (currentMain != null) currentMain.IsMain = false;
+
+                photo.IsMain = true;
+            }
 
             if (await _uow.Complete()) return NoContent();
 
-            return BadRequest("Failed to set main photo");
+            else return BadRequest("Failed to set main photo");
 
         }
         [HttpDelete("delete-photo/{photoId}")]
         public async Task<ActionResult> DeletePhoto(int photoId)
         {
             var user = await _uow.UserRepository.GetUserByUsernameAsync(User.GetUsername());
-            var photo = user.Photos.FirstOrDefault(x => x.Id == photoId);
+            // var photo = user.Photos.FirstOrDefault(x => x.Id == photoId);
+            var photo = await _uow.PhotoRepository.GetPhotoById(photoId);
 
             if (photo == null) return NotFound();
 

@@ -1,0 +1,9 @@
+img.img-thumbnail.p-1{
+    height: 175px;
+    min-width: 175px;
+    margin-bottom: 2px;
+}
+
+img.img-thumbnail.p-1:hover{
+    height: 190px;
+}

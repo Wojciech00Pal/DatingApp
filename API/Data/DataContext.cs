@@ -19,6 +19,8 @@ namespace API.Data
         public DbSet<Group_> Groups { get; set; }
         public DbSet<Connection> Connections { get; set; }
 
+        public DbSet<Photo> Photos { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -59,6 +61,9 @@ namespace API.Data
                 .HasOne(u => u.sender)
                 .WithMany(l => l.MessagesSent)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Photo>()
+                .HasQueryFilter( x=> x.isApproved); //jesli chcemy tez nie zatwierdzone to ignoreFilters
         }
     }
 }

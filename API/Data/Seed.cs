@@ -13,7 +13,7 @@ namespace API.Data
 {
     public class Seed
     {
-        public static async Task SeedUsers(UserManager<AppUser> userManager, RoleManager<AppRole> 
+        public static async Task SeedUsers(UserManager<AppUser> userManager, RoleManager<AppRole>
         roleManager)
         {
             if (await userManager.Users.AnyAsync()) return;
@@ -28,13 +28,14 @@ namespace API.Data
                 new AppRole{Name = "Moderator"},
             };
 
-            foreach(var role in roles )
+            foreach (var role in roles)
             {
-                    await roleManager.CreateAsync(role);
+                await roleManager.CreateAsync(role);
             }
 
             foreach (var user in Users)
             {
+                user.Photos.First().isApproved = true;
                 user.UserName = user.UserName.ToLower();
                 await userManager.CreateAsync(user, "Pa$$w0rd");
                 await userManager.AddToRoleAsync(user, "Member");
@@ -46,7 +47,7 @@ namespace API.Data
             };
 
             await userManager.CreateAsync(admin, "Pa$$w0rd");
-            await userManager.AddToRolesAsync(admin, new[]{"Admin","Moderator"});
+            await userManager.AddToRolesAsync(admin, new[] { "Admin", "Moderator" });
 
         }
     }
