@@ -73,12 +73,18 @@ namespace API
             app.UseAuthentication();//kolejnosc wazna
             app.UseAuthorization();
 
+            app.UseDefaultFiles();//
+            app.UseStaticFiles();//wwroot folder to seve content from there
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
                 endpoints.MapHub<PresenceHub>("hubs/presence");
                 endpoints.MapHub<MessageHub>("hubs/message");
+                endpoints.MapFallbackToController("Index", "Fallback");
             });
+
+
 
         }
     }

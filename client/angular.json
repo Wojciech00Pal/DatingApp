@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/client",
+            "outputPath": "../API/wwwroot",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -25,7 +25,6 @@
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "./node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
-              "./node_modules/bootstrap/dist/css/bootstrap.min.css",
               "./node_modules/bootswatch/dist/united/bootstrap.css",
               "./node_modules/font-awesome/css/font-awesome.css",
               "./node_modules/ngx-toastr/toastr.css",
@@ -69,11 +68,10 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "sslKey":"./ssl/server.key",
-            "sslCert":"./ssl/server.crt",
-            "ssl":true
+            "sslKey": "./ssl/server.key",
+            "sslCert": "./ssl/server.crt",
+            "ssl": true
           },
-
           "configurations": {
             "production": {
               "browserTarget": "client:build:production"

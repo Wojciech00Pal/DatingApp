@@ -1,3 +1,4 @@
+using System.Xml.Serialization;
 using System;
 using System.Threading.Tasks;
 using API.Data;
@@ -28,7 +29,7 @@ namespace API
                 await context.Database.MigrateAsync();
                 //context.Connections.RemoveRange(context.Connections);await context.Database.ExecuteSqlRawAsync("Truncate TABLE [Connections]"); not is working in sqlit                   
                // await context.Database.ExecuteSqlRawAsync("Truncate TABLE [Connections]");
-                await context.Database.ExecuteSqlRawAsync("DELETE FROM [Connections]");
+                await Seed.ClearConnections(context);
                 await Seed.SeedUsers(userManger, roleManger);
             }
             catch (Exception ex)
