@@ -1,0 +1,8 @@
+c# ctrl+p >debug api.exe
+.net.core attach to api.exe
+
+Angular
+launch chrome
+
+odpalic w api/ wczesniej wlaczony postgres
+docker run --rm -it -p 8080:80 trycatchlearn/datingapp:latest 
